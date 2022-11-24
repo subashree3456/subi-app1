@@ -16,3 +16,6 @@ time delay from page to page
 
 to install react router dom
 npm i react-router-dom
+
+
+mv rathu movie kku prop pa pass aagi  antha prop pa movie component la vangi irukom
