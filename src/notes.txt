@@ -1,0 +1,18 @@
+DAY 2 NOTES 
+WHU ROUTING?
+
+when no routing --> 
+1.hit refresh u r lost
+2.cannot bookmark
+
+when routing e.g about page, contact page , home page
+1. organised
+2.easy of access
+3. sharing is caring
+4.secure route
+
+Routing in old web apps
+time delay from page to page
+
+to install react router dom
+npm i react-router-dom
