@@ -116,12 +116,53 @@ function App() {
  {/* {users.map(usr=><Msg name={usr.name} pic={usr.pic} />)} */}
  {/* component calling */}
  
- <div className="movie-list">
+  <div className="movie-list">
  {movielist.map((mv)=>(
  <Movie movie={mv} /> ))}
- </div>
+ </div> 
+ {/* <AddColor /> */}
      </div>
   );
+}
+
+function AddColor(){
+  // const styles ={
+  //   background:"red",
+  // };
+
+  const [color , setColor]=useState("pink");
+   const styles ={
+    background:color,
+  };
+const [colorList , setColorList] =useState(["teal" ,"crimson","orange"]);
+  return(
+    <div>
+      {/* typing -> onchange -> capturing event.target.value -> setcolor -> inform react */}
+     {/* <input style={styles} type="text" onChange={(event)=> console.log(event.target.value)}/> */}
+     <input style={styles} 
+     type="text" 
+     onChange={(event)=> setColor(event.target.value)} 
+     value={color}/>
+    {/* {color} */}
+{/* create a copy of colorlist and add new color to it */}
+    <button onClick={()=> setColorList([...colorList , color])}> Add Color </button>
+    {colorList.map((clr)=><ColorBox clr={clr}/> )}
+   {/* <ColorBox clr="crimson"/>
+    <ColorBox clr="skyblue"/> */}
+    </div>
+  );
+}
+
+function ColorBox({clr}){
+  const styles = {
+    height : "25px",
+    width: "250px",
+    background: clr,
+    marginTop: "10px",
+  };
+  return (
+    <div style={styles} > </div>
+  )
 }
 
 //component declaration
@@ -134,16 +175,23 @@ function Movie({movie}){
   //   //   summary:
   //   //   "Members of a black ops team must track and eliminate a gang of masked murderers.",
       
-  //   //   }  
-  
+  //   //   } 
+  // conditional styling 
+  const styles ={
+    color: movie.rating>8.5 ? "green" : "red",
+  }
+  const [show , setShow] = useState(true);
   return (
     <div className="movie-container">
 <img src={movie.poster} alt={movie.name} className="movie-poster"/>
 <div className="movie-specs">
   <h3 className="movie-name">{movie.name}</h3>
-  <p className="movie-rating">🌟{movie.rating}</p> 
+  <p style={styles} className="movie-rating">🌟{movie.rating}</p> 
 </div>
-<p className="movie-summary"> {movie.summary}</p>
+<button onClick={()=> setShow(!show)}> Toggle summary </button> {/* {show + " "} */}
+{/* conditional rendering*/}
+{show ? <p className="movie-summary"> {movie.summary}</p> :null}
+<Counter />
     </div>
   );
 }
@@ -185,8 +233,8 @@ function Msg({pic, name}) {
     <div>
 <button onClick={()=>setLike(like+1)
 //console.log(like);
-}>  {like} </button>
-<button onClick={()=>setDislike(dislike+1)}>  {dislike} </button>
+}> 👍 {like} </button>
+<button onClick={()=>setDislike(dislike+1)}>  👎{dislike} </button>
 {/* <h2> {like}</h2>
 <h2> {like}</h2>
 <h2> {like}</h2> */}
