@@ -47,4 +47,18 @@
   gap:1rem;
   justify-content: space-around;
   flex-wrap:wrap;
+  object-fit: cover;
+}
+
+.add-movie-container{
+  display: flex;
+  flex-direction:column;
+  gap:0.8rem;
+  max-width: 450px;
+  margin : 10px auto;
+}
+
+.not-found{
+  width:100%;
+  object-fit: cover;
 }

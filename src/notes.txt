@@ -1,3 +1,36 @@
+// component declaration
+// function Msg(props) {
+//   console.log(props);
+//   const name="Subi";
+//   return (
+//     <div className="App">
+//       <img className="profile-pic"
+//       src={props.pic} 
+//       alt={props.name} />
+//    <h1> Hello , {props.name} </h1>
+//    </div>
+//   );
+// }
+
+// component declaration
+// function Msg(props) {
+//   console.log(props);
+//   const {name  , pic} =props; // object destructuring and we are using this to avoid props.name , props.pic in below lines
+//   return (
+//     <div className="App">
+//       <img className="profile-pic"
+//       src={pic} 
+//       alt={name} />
+//    <h1> Hello , {name} </h1>
+//    </div>
+//   );
+// }
+
+
+
+/////-----------------------
+
+
 DAY 2 NOTES 
 WHU ROUTING?
 
@@ -33,3 +66,28 @@ conditional rendering antha elememt ta dom vite thookirum ( example : false sa i
 routing setup
 
 npm i react-router-dom
+
+---------------------------
+
+Toggle summary kku conditional rendering concept use pannom
+setmovielist vandhu antha movie list ta change pannarathu kana oru function
+----------------
+
+refactor ---> move to new file
+
+
+routing is conditional rendering
+
+2 types of routers :
+
+1. Browser router
+2.#hash router
+
+anchor tag --> url la change panrathu anchor tag
+router tag --> url la match panrathu
+
+Redirect:
+404
+
+people  typing random url
+NO LONGER THE PAGE EXISTS
