@@ -12,7 +12,11 @@ import AddMovie from './AddMovie';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-
+//import { createTheme, Paper, ThemeProvider } from "@mui/material";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 console.log(double(10));
 console.log(double(20));
@@ -42,32 +46,50 @@ function App() {
     },
   ]
   const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
+
+  const [mode , setMode]= useState("dark");
+
+  const themeCtx = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
   
   const navigate = useNavigate();
 
-  return (
-    <div className="App">
-           {/* {names.map(nm => <Welcome name={nm} />)} */}
-      {/*users.map(usr=><Msg name="Sara" pic="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-JXTGHFY17JKveGhEsuP2rz0qxFMoKb6eHg&usqp=CAU" */}
-      {/* {users.map(usr => <Msg name={usr.name} pic={usr.pic} />)} */}
-      {/* component calling */}
+  fetch("https://636fd102f957096d513c8489.mockapi.io/newmovies")
+  .then(data => data.json())
+  .then(mvs => console.log(mvs));
 
+  return (
+
+    <ThemeProvider theme={themeCtx}>
+         {/* <Paper elevation={4} > */}
+        <Paper elevation={4} 
+       sx={{ minHeight: "100vh",
+        borderRadius: 0 }}> 
+    <div className="App">          
       <AppBar position="static">
         <Toolbar>         
           <Button color="inherit" onClick={()=> navigate("/")}>Home</Button>
           <Button color="inherit" onClick={()=> navigate("/movies")}>Movies</Button>
           <Button color="inherit" onClick={()=> navigate("/movies/add")}>Add Movies</Button>
-          <Button color="inherit" onClick={()=> navigate("/color-game")}>Color Game</Button>
+          <Button 
+          // sx={{
+          //   marginLeft :"auto",
+          // }}
+          color="inherit" onClick={()=> navigate("/color-game")}>Color Game</Button>
+          <Button 
+          sx={{
+            marginLeft :"auto",
+          }}
+          startIcon={(mode=== "dark" ? <Brightness7Icon /> : <Brightness4Icon/>)}
+          color="inherit" onClick={()=> setMode( mode=== "light"? "dark": "light")}>
+           {mode=== "light"? "dark": "light"}
+           mode
+            </Button>
         </Toolbar>
-      </AppBar>
-
-      {/* <ul>
-        <li><Link to="/">Home</Link></li> 
-        <li><a href="/movies">Movies with Anchor</a></li>
-        <li><Link to="/movies">Movies</Link></li>
-        <li><Link to="/movies/add">Add Movies</Link></li>
-        <li><Link to="/color-game">Color game</Link></li>
-      </ul> */}
+      </AppBar>     
   <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/films" element={<Navigate replace to="/movies"/>} />
@@ -76,9 +98,9 @@ function App() {
         <Route path="/color-game" element={<AddColor />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* <MovieList movieList={movieList} setMovieList={setMovieList} /> */}
-      {/* <AddColor /> */}
-    </div>
+      </div>
+    </Paper>
+    </ThemeProvider>
   );
 }
 
@@ -103,4 +125,6 @@ function NotFound(){
 }
 
 export default App; // default export
+
+{/* <Button color="inherit" onClick={()=> setMode("dark")}>Light Mode</Button> */}
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 
@@ -8,6 +8,24 @@ export function Counter() {
     const [disLike, setDisLike] = useState(0);
     const incrementLike = () => setLike(like + 1);
     const incrementDisLike = () => setDisLike(disLike + 1);
+
+
+    // without dependency array
+// useEffect(() =>
+// {
+// console.log("Like Value is Updated" , like);
+// });
+// with dependency array
+// useEffect(() =>
+// {
+// console.log("Like Value is Updated" , like);
+// } , [like]);
+
+useEffect(() =>
+{
+console.log("Like Value is Updated" , like);
+} , [like , disLike]);
+
     return (
         <div>
             <Badge badgeContent={like} color="primary">
