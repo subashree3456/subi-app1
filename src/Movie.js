@@ -7,12 +7,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate } from "react-router-dom";
 
-export function Movie({ movie }) {   
+// component declaration
+export function Movie({ movie , deleteButton }) {   
     const styles = {
         color: movie.rating > 8.5 ? "green" : "red",
     };
     const [show, setShow] = useState(true);
+
+    const navigate = useNavigate();
+    
     return (
         <card className="movie-container">
             <img src={movie.poster} alt={movie.name} className="movie-poster" />
@@ -24,13 +30,18 @@ export function Movie({ movie }) {
             aria-label="delete">
        { show? <ExpandLessIcon/>:<ExpandMoreIcon/>}
       </IconButton>
+      <IconButton 
+            onClick={() => navigate(`/movies/${movie.id}`)}
+            aria-label="delete">
+      <InfoIcon />
+      </IconButton>
                 </h3>
                 <p style={styles} className="movie-rating">🌟{movie.rating}</p>
             </div>            
             {show ? <p className="movie-summary"> {movie.summary}</p> : null}
             </CardContent>           
       <CardActions>
-            <Counter />
+            <Counter /> {deleteButton}
             </CardActions>    
         </card>
     );

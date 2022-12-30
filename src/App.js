@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from "react";
+import { useState , useEffect } from "react";
 //   component name        // file name
 import { Welcome, double } from "./Welcome";  // e.g for named import
 import { Msg } from './Msg';
 import { AddColor } from './AddColor';
 import { MovieList } from './MovieList';
 import { INITIAL_MOVIE_LIST } from './INITIAL_MOVIE_LIST';
-import { Routes, Route, Link , Navigate , useNavigate} from "react-router-dom";
+import { Routes, Route, Link , Navigate , useNavigate , useParams} from "react-router-dom";
 import AddMovie from './AddMovie';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -45,7 +45,8 @@ function App() {
       pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsynwv-5qtogtOwJbIjaPFJUmHpzhxgqIAug&usqp=CAU"
     },
   ]
-  const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
+  // const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
+
 
   const [mode , setMode]= useState("dark");
 
@@ -56,11 +57,6 @@ function App() {
   });
   
   const navigate = useNavigate();
-
-  fetch("https://636fd102f957096d513c8489.mockapi.io/newmovies")
-  .then(data => data.json())
-  .then(mvs => console.log(mvs));
-
   return (
 
     <ThemeProvider theme={themeCtx}>
@@ -93,9 +89,12 @@ function App() {
   <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/films" element={<Navigate replace to="/movies"/>} />
-        <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList} />} />
-        <Route path="/movies/add" element={<AddMovie movieList={movieList} setMovieList={setMovieList} />} />
+        {/* <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList} />} /> old coding*/}
+        <Route path="/movies" element={<MovieList/>} />
+        <Route path="/movies/add" element={<AddMovie />} />
         <Route path="/color-game" element={<AddColor />} />
+        <Route path="/movies/:id" element={<MovieDetail />} />
+        {/* /movies/101 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       </div>
@@ -103,6 +102,54 @@ function App() {
     </ThemeProvider>
   );
 }
+
+function MovieDetail(){
+  //id
+  const {id} = useParams();
+  console.log(useParams());
+  const [movie, setMovie] = useState([]);
+  const getMovie =() => {
+      fetch(`https://636fd102f957096d513c8489.mockapi.io/newmovies/${id}`,{
+          method : "GET" , 
+      })
+      .then(data => data.json())
+      // .then(mvs => console.log(mv));
+      .then(mv => setMovie(mv)); 
+    };
+
+    useEffect(()=> getMovie(),[]);  // intha line kodukalena array of object ta console aaaguthu
+    const styles = {
+      color: movie.rating > 8.5 ? "green" : "red",
+  };
+
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <iframe width="100%" 
+      height="800" 
+      // src="https://www.youtube.com/embed/BWkP95PazWo" 
+      src={movie.trailer} 
+      title="Love Today Telugu - Official Trailer | @MorattuSingle   | Yuvan Shankar Raja | AGS"
+       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+        picture-in-picture" allowfullscreen>          
+        </iframe>
+    <div className="movie-detail-container">
+      <div className="movie-specs">
+                <h3 className="movie-name">{movie.name} </h3>                
+                <p style={styles} className="movie-rating">🌟{movie.rating}</p>
+            </div>            
+            <p className="movie-summary">{movie.summary}</p>
+      {/* <h1>Movie Detail of  {movie.name}.... 😆😄😅</h1> */}
+    </div>
+    <button 
+    onClick={() => navigate(-1)}
+    >
+      Back</button>
+    </div>
+  );
+}
+
 
 function Home()
 {

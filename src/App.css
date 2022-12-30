@@ -63,3 +63,8 @@
   width:100%;
   object-fit: cover;
 }
+
+.movie-detail-container{
+  max-width : 750px;
+  padding : 16px 0px;
+  }
