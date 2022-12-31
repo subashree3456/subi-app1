@@ -68,3 +68,9 @@
   max-width : 750px;
   padding : 16px 0px;
   }
+
+.basic-form{
+  display : flex;
+  flex-direction : column;
+  gap : 10px;
+}
