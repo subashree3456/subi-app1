@@ -21,6 +21,7 @@ import { NotFound } from './NotFound';
 import { Home } from './Home';
 import { MovieDetail } from './MovieDetail';
 import { BasicForm } from './BasicForm';
+import { EditMovie } from './EditMovie';
 
 console.log(double(10));
 console.log(double(20));
@@ -100,6 +101,7 @@ function App() {
             <Route path="/movies/add" element={<AddMovie />} />
             <Route path="/color-game" element={<AddColor />} />
             <Route path="/movies/:id" element={<MovieDetail />} />
+            <Route path="/movies/edit/:id" element={<EditMovie />} />
             <Route path="/basic-form" element={<BasicForm />} />
             {/* /movies/101 */}
             <Route path="*" element={<NotFound />} />
@@ -109,6 +111,7 @@ function App() {
     </ThemeProvider>
   );
 }
+
 
 export default App; // default export
 

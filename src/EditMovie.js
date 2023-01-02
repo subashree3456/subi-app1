@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { navigate , useNavigate} from "react-router-dom";
+import { navigate , useNavigate , useParams} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from "yup";
 
@@ -17,55 +17,80 @@ const movieValidationSchema = yup.object({
     summary : yup.string().min(20  ,"Need a stronger summary😄😃😄").required("why not fill this summary 😃"),
     trailer : yup.string().min(4  ,"Need a stronger trailer 😄😃😄").required("why not fill this trailer 😃"),
 });
-export function AddMovie() {
+export function EditMovie() {
     
+//id
+const { id } = useParams();
+console.log(useParams());
+const [movie, setMovie] = useState(null);
+const getMovie = () => {
+    fetch(`https://636fd102f957096d513c8489.mockapi.io/newmovies/${id}`, {
+        method: "GET",
+    })
+        .then(data => data.json())
+        // .then(mvs => console.log(mv));
+        .then(mv => setMovie(mv));
+};
+
+useEffect(() => getMovie(), []); // intha line kodukalena array of object ta console aaaguthu
+
+console.log(movie);
+return (
+    <div>
+      {/* {movie ?  <EditMovieForm movie={movie}/> : null} */}
+      {movie ?  <EditMovieForm movie={movie}/> : <p> Loading....</p>}
+    </div>
+)
     // const [name, setName] = useState("");
     // const [poster, setPoster] = useState("");
     // const [rating, setRating] = useState("");
     // const [summary, setSummary] = useState("");
     // const [trailer, setTrailer] = useState("");
+}
 
+
+function EditMovieForm ({movie}) {
 
     const formik = useFormik({
         initialValues :{
-            name:"",
-            poster:"",
-            rating: "",
-            summary: "",
-            trailer : "",
+            name:movie.name,
+            poster:movie.poster,
+            rating:movie.rating,
+            summary:movie.summary,
+            trailer :movie.trailer,
         } ,
         // validation schema:
 
         validationSchema : movieValidationSchema,
-        onSubmit : (newMovie) =>{
-            console.log("The form values are " , newMovie);
-            addMovie(newMovie);
+        onSubmit : (updatedMovie) =>{
+            console.log("The form values are " , updatedMovie);
+            updateMovie(updatedMovie);
         },
     });
 
 
 const navigate = useNavigate();
     // below lines is to reduce line number 144
-    const addMovie = (newMovie) => {
+    const updateMovie = (updatedMovie) => {
         // const newMovie = {
         //     name: name,
         //     poster: poster,
         //     rating: rating,
         //     summary: summary,
         // };
-        console.log(newMovie);
+        console.log(updatedMovie);
         { /* create a copy of movielist and add new movie  to it */ }
         // setmovielist is not available here so propss sa app componentlenthu varum
         // setMovieList([...movieList, newMovie]);
         // Post Method - fetch
-        // 1.method - POST
-        // 2.Data (newMovie) - body & JSON
-        // 3.Haeder - json
+        // 1.method - PUT & id
+        // 2.Data (updatedMovie) - body & JSON
+        // 3.Haeder - JSON
 
 
-        fetch("https://636fd102f957096d513c8489.mockapi.io/newmovies",{
-            method : "POST" , 
-            body : JSON.stringify(newMovie) ,
+        fetch(`https://636fd102f957096d513c8489.mockapi.io/newmovies/${movie.id}`,{
+            method : "PUT" , 
+            body : JSON.stringify(updatedMovie) ,
             headers: {"Content-Type": "application/json",
         },         
         // }).then(data => data.json());
@@ -83,7 +108,7 @@ const navigate = useNavigate();
              error={formik.touched.name && formik.errors.name}
              helperText={formik.touched.name && formik.errors.name ? formik.errors.name : null}
              />
-
+               {movie.name}
              {/* {formik.touched.name && formik.errors.name ? formik.errors.name : null} */}
 
             <TextField id="outlined-basic" label="Poster" variant="outlined" name="poster" value={formik.values.poster} 
@@ -116,11 +141,10 @@ const navigate = useNavigate();
 
             {/* <p> {name} {poster} {rating} {summary}</p> */}
             {/* material ui coding starts */}
-            <Button type="submit" variant="contained"> Add Movie</Button>
+            <Button type="submit" variant="contained" color="success"> SAVE </Button>
         </form>
 
     );
 }
 
-
-export default AddMovie;
+export default EditMovie;

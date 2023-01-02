@@ -2,6 +2,9 @@ import { Movie } from './Movie';
 import {useState , useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
+
 export function MovieList() {
 
     const [movieList, setMovieList] = useState([]);
@@ -24,6 +27,9 @@ const deleteMovie = (id) =>{
     method : "DELETE" ,    
  }).then (() => getMovies()); // to avoid reloading the page after deletion
 };
+
+const navigate = useNavigate();
+
     return (
         <div>
             <div className="movie-list">
@@ -37,7 +43,19 @@ const deleteMovie = (id) =>{
                     aria-label="delete">
                         <DeleteIcon />
                     </IconButton>
-                    }/>
+                    }
+
+                    editButton={
+                        <IconButton 
+                        color="secondary"
+                        onClick={()  => navigate(`/movies/edit/${mv.id}`)}
+                        aria-label="edit">
+                            <EditIcon />
+                        </IconButton>
+                        }/>
+
+
+
                 ))}
             </div>
         </div>
@@ -45,4 +63,4 @@ const deleteMovie = (id) =>{
 }
 
 
-
+// movies/edit/101   101 is(id)
