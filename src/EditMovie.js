@@ -34,7 +34,7 @@ const getMovie = () => {
 
 useEffect(() => getMovie(), []); // intha line kodukalena array of object ta console aaaguthu
 
-console.log(movie);
+// console.log(movie);
 return (
     <div>
       {/* {movie ?  <EditMovieForm movie={movie}/> : null} */}
